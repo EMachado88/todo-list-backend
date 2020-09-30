@@ -2,8 +2,9 @@ require('dotenv').config()
 const PORT = process.env.PORT || 9000
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/todos'
 
-const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
+const express = require('express')
 const mongoose = require('mongoose')
 
 const userRoutes = require('./routes/user')
@@ -18,6 +19,8 @@ db.once('open', () => {
 })
 
 const app = express()
+
+app.use(cors())
 app.use(bodyParser.json())
 
 app.use('/api/users', userRoutes)
