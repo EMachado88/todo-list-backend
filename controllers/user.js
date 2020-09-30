@@ -6,6 +6,14 @@ const jwt = require('jsonwebtoken')
 
 const User = require('../models/user')
 
+const generateJWT = (_id, name, email) => {
+  return jwt.sign({ 
+    _id,
+    name,
+    email
+  }, secret, { expiresIn: '6h' })
+}
+
 exports.create = async (req, res, next) => {
   const { name, email, password } = req.body.user
 
@@ -24,7 +32,15 @@ exports.create = async (req, res, next) => {
       return next(err)
     }
 
-    res.json('User created successfully')
+    const token = generateJWT(user._id, user.name, user.email)
+    
+    res.json({
+      user: {
+        name: user.name,
+        email: user.email
+      },
+      token
+    })
   })
 }
 
@@ -37,11 +53,7 @@ exports.login = async (req, res) => {
     const isValid = await bcrypt.compare(password, user.password)
     
     if (isValid) {
-      const token = jwt.sign({ 
-        _id: user._id,
-        name: user.name,
-        email: user.email
-      }, secret, { expiresIn: '6h' })
+      const token = generateJWT(user._id, user.name, user.email)
       
       res.json({
         user: {
@@ -51,15 +63,15 @@ exports.login = async (req, res) => {
         token
       })
     } else {
-      res.status(403).json('Password is invalid').end()
+      return res.status(403).json('Password is invalid').end()
     }
   } catch (error) {
-    res.status(500).json('User does not exist').end()
+    return res.status(500).json('User does not exist').end()
   }
 }
 
 exports.list = async (req, res, next) => {
   const users = await User.find({})
-  console.log(users)
+  
   res.json(users)
 }
