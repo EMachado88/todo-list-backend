@@ -8,6 +8,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 
 const userRoutes = require('./routes/user')
+const projectRoutes = require('./routes/project')
 
 // MongoDB connection
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
@@ -25,5 +26,6 @@ app.use(cors())
 app.use(bodyParser.json())
 
 app.use('/api/users', userRoutes)
+app.use('/api/projects', projectRoutes)
 
 app.listen(PORT, () => { console.log(`Listening on port ${PORT}`) })
