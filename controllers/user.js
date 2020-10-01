@@ -75,3 +75,9 @@ exports.list = async (req, res, next) => {
   
   res.json(users)
 }
+
+exports.delete = async (req, res, next) => {
+  const result = await User.deleteOne({ _id: req.params.id })
+
+  res.json(result)
+}

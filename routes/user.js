@@ -11,4 +11,6 @@ router.post('/login', userController.login)
 
 router.get('/', authMiddleware.verifyJWT, userController.list)
 
+router.delete('/:id', authMiddleware.verifyJWT, userController.delete)
+
 module.exports = router
