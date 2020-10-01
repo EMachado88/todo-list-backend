@@ -18,6 +18,7 @@ db.once('open', () => {
   console.log(`we're connected to mongo`)
 })
 
+// Express app
 const app = express()
 
 app.use(cors())

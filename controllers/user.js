@@ -25,7 +25,7 @@ exports.create = async (req, res, next) => {
       email,
       password: hash
     }
-  );
+  )
 
   user.save((err) => {
     if (err) {
