@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 
 const userRoutes = require('./routes/user')
 const projectRoutes = require('./routes/project')
+const taskRoutes = require('./routes/task')
 
 // MongoDB connection
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
@@ -27,5 +28,6 @@ app.use(bodyParser.json())
 
 app.use('/api/users', userRoutes)
 app.use('/api/projects', projectRoutes)
+app.use('/api/projects', taskRoutes)
 
 app.listen(PORT, () => { console.log(`Listening on port ${PORT}`) })
